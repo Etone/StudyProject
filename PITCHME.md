@@ -33,3 +33,45 @@ Qt und boost als Beispiel für Security Flaws in Libs
 #### SQL Injection
 ![XKCD Exploits of a Mom](https://imgs.xkcd.com/comics/exploits_of_a_mom.png)  
 Eingaben von User müssen validiert werden
++++
+![Heise Wordpress SQL Injection](https://puu.sh/ziCzQ/167a8776e3.png)  
+Auch heute noch von Relevanz
++++
+```
+QSqlDatabase db = QSqlDatabase::addDatabase("QMYSQL");
+db.setHostName("localhost");
+db.setDatabaseName("dbstupro");
+db.setUserName("admin");
+db.setPassword("admin");
+bool ok = db.open();
+```
+Verbindung an Datenbank durch Qt
++++
+```
+public QString queryDataForKey(QString condition)
+{
+  QSqlQuery query(db);
+  QString queryString("SELECT key, value FROM table WHERE key =");
+
+  //this is unsafe and inefficient
+  queryString += "'" + condition + "'";
+
+  query.exec(queryString);
+  //Buisness Logic, get Result and so on
+  return resultString;
+}
+
+```
+**unsichere** SQL Query mit Qt in C++
++++
+```
+//Query.cpp
+public int main(int argc, char *argv[])
+{
+  //Do stuff
+  Database::queryDataForKey(argv[1]);
+  //Do more stuff
+}
+```
+Unsicherer Aufruf der Methode queryDataForKey()  
+Aufruf mit Query.exe a; SELECT * FROM table
