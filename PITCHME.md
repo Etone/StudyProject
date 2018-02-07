@@ -7,7 +7,7 @@
 ## Motivation
 
 +++
-![Netflix Architecture](image=https://image.slidesharecdn.com/archtutorialgluecon-pptx-120524120713-phpapp02/95/netflix-architecture-tutorial-at-gluecon-23-728.jpg?cb=1394002823&size=auto)
+![Netflix Architecture](https://image.slidesharecdn.com/archtutorialgluecon-pptx-120524120713-phpapp02/95/netflix-architecture-tutorial-at-gluecon-23-728.jpg?cb=1394002823)
 
 Note:
 Netflix Architecture, Systeme werden immer komplexer, unüberschaubar.
