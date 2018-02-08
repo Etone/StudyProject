@@ -26,7 +26,7 @@ Qt und boost als Beispiel für Security Flaws in Libs
 
 ---
 ### Input Validation
----
++++
 #### SQL Injection
 ![XKCD Exploits of a Mom](https://imgs.xkcd.com/comics/exploits_of_a_mom.png)  
 Eingaben von User müssen validiert werden
@@ -71,10 +71,14 @@ public int main(int argc, char *argv[])
 ```
 Unsicherer Aufruf der Methode queryDataForKey()  
 Aufruf mit Query.exe a' DROP ALL TABLES;
----
-#### Integer Probleme
 +++
-##### Was kann passieren
+### How to protect
+**NEVER TRUST USER INPUT** -OWASP, MSDN, CERT  
+Prepared Statements
+---
+### Integer Probleme
++++
+#### Was kann passieren
 * **Overflow (unsigned und signed)**
 * **Underflow (unsigned und signed)**
 * Extension
@@ -84,9 +88,9 @@ Aufruf mit Query.exe a' DROP ALL TABLES;
 Note:
 Narrowing = int -> short, dadurch verlust von Infos / bei signed Verlust Vorzeichen
 +++
-##### Overflow und Underflow
+#### Overflow und Underflow
 +++
-###### Overflow
+##### Overflow
 ```
 unsigned short a = 65000;
 unsigned short b =   540;
@@ -108,7 +112,7 @@ Note:
 Signed nicht definiert, meistens 2er Komplement
 SHORT_MAX = 0x7fff | + 1 = 0x8000 = -32768
 +++
-###### Underflow
+##### Underflow
 ```
 unsigned short us = 0;
 short ss = SHRT_MIN; //-32768
@@ -117,7 +121,7 @@ ss -= 1;
 
 printf("%hu %hu", us ss);
 ```
-![Integer Underflow](https://puu.sh/zjfl1/42bf7f07c3.png)
+![Integer Underflow](https://puu.sh/zjfl1/42bf7f07c3.png&size=contain)
 +++
 Problem bei Methoden, die vermischte Vorzeichen benutzen
 * malloc
@@ -139,18 +143,29 @@ Note:
 copySize = -2147482047
 if check fails, memcpy behandelt wie unsigned -> Buffer Overflow
 Schutz durch z.B. Compilerflag (bei Overflow runtime error)
-+++
-#### How to protect
-**NEVER TRUST USER INPUT** -OWASP, MSDN, CERT
 ---
 ## Tools zur statischen Code Analyse
-* MS Visual Studio Code Analyse
+* MS Visual Studio Code Analyzer
 * CppCheck
 ---
 ### Funktionsweise
 +++
+* Tokenize Source Code
+* Matchen der Tokens
+* Abstract Syntax Tree
++++
+#### Abstract Syntax Tree
+```
+x = 1;
+y = 2;
+3* (x + y);
+```
+![AST small](https://i.stack.imgur.com/dhd3v.png);
+
+Note:
+Tiefensuche, erst Links, dann rechts, dann Knoten, rekursiv.
 ---
-### MS Visual Studio Code Analyse
+### MS Visual Studio Code Analyzer
 * Integrierte Code Analyse in Visual Studio
 * Vordefinierte Regelsätze
 * Erweiterbar durch neue Regelsätze und eigene Checks
